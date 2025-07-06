@@ -6,10 +6,9 @@
 		"version": "${version}",
 		"metadata": {
 			"name": "Eliminate Players",
-			"description": "This cat ISN'T, it literally DOESN'T",
+			"description": "A simple, yet amazingly complicated mod used for taunting your friends - allowing you to \"eliminate players\".",
 			"contributors": {
-				"Gabe_Real": "Developer/Owner",
-				"Arathain": "Original Concept"
+				"Gabe_Real": "Developer/Owner"
 			},
 			"contact": {
 				"Source": "https://github.com/Gabe-Real/eliminate-players",

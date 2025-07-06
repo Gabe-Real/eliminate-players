@@ -1,28 +1,43 @@
-# Quilt Kotlin Template Mod
+<div align="center">
+  <h1>Eliminate Players</h1>
 
-The official Quilt Kotlin template Mod. You can use it as a template for your own kotlin mods!
+<a href="https://modrinth.com/mod/qsl"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/requires/quilt-standard-libraries_vector.svg"></a>
+<a href="https://discord.gabereal.co.uk"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/social/discord-plural_vector.svg"></a>
+<a href="https://ko-fi.com/Gabe_Real"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/donate/kofi-plural-alt_vector.svg"></a>
 
-## Usage
+<h3>A ghostly Quilt mod that lets you "eliminate" players - hiding their chat, name, and presence, while replacing them with eerie visuals.</h3>
 
-In order to use this mod as a template:
+<h3>⚠️ Please note: This mod was originally desigend with the intention to only be used on one server, with one player. Certain features may not work as intended or be easily accessable to change.⚠️</h3>
+</div>
 
-1. Create a new repository from this template with `Use this template`
-2. Clone the recently-created repo on your PC
-3. Make the necessary changes in order to make it yours:
-    - Update `gradle.properties` in order to use your Maven group and mod ID
-        - If you don't know which Maven group to use, and you are planning to host the mod's source code on GitHub, use `io.github.<Your_Username_Here>`
-    - Update `quilt.mod.json` in order to reflect your mod's metadata
-        - If you are planning to include (jar-in-jar) a mod, don't forget to declare its dependency on it!
-        - The icon provided here is a placeholder one. If you aren't able to replace it yet, you can delete it and remove the "icon" property
-    - Create a LICENSE file for this mod! If you don't know which license to use, check out [here](https://choosealicense.com/).
-        - In `quilt.mod.json`, don't forget to put the license's [SPDX identifier](https://spdx.org/licenses/) under the `"license"` property in `"metadata"`.
-        - The GPLv3 and AGPLv3 are not valid mod licenses, so you can use almost any license except for those.
-    - Update the Java sub-directory structure so it reflects your Maven group
-    - If the dependencies on `gradle/libs.versions.toml` isn't up-to-date, feel free to update them! The [linked utility](https://lambdaurora.dev/tools/import_quilt.html) should help you in this easy and quick process.
-4. The mod is now ready to be worked on!
+## Dependencies
+- Quilt Loader: >=0.29.0
+    - [https://quiltmc.org/en/install/client/](https://quiltmc.org/en/install/client/)
+- Quilt Fabric API: >=7.0.2
+    - [https://modrinth.com/mod/qsl](https://modrinth.com/mod/qsl)
+- Quilt Kotlin Libraries: >=2.1.0
+    - [https://modrinth.com/mod/qkl](https://modrinth.com/mod/qkl)
 
-## License
+## FAQ
 
-This template on the QuiltMC GitHub is licensed under the [Creative Common Zero v1.0 license](./LICENSE_TEMPLATE.md).
+**Q: Can I become the ghost and freak out my friends with my amazing, ominous powers?**
 
-Mods created with this template are not automatically licensed under the CC0, and are not required to give any kind of credit back to QuiltMC for this template.
+**A: Yes of course you can.** Just note that we do not pay your hospital bills :P
+
+**Q: Can I port this mod to [Loader]? Can I update this mod to [Newer version]?**
+
+**A: Yes, feel free** - the Github repository is linked in this project. You can also contribute to the project if you'd like, it would be much appreciated.
+
+**Q: Can you backport this mod to 1.x? When will you update to [Older version]?**
+
+**A: No.** I mod Minecraft as a hobby with very limited time. Therefore, I will not backport this mod to older versions of Minecraft, and I will update it to future versions when I feel like it. If you want it updated to newer versions, feel free to contribute to the mod and make a pull request, it's appreciated! Otherwise, don't come begging.
+
+**Q: Can I include this mod in a modpack?**
+
+**A: Yes you can.** Please however provide credit and a link to the Modrinth project page.
+
+**Got more questions?**
+
+Feel free to join the [Discord server](https://discord.gabereal.co.uk)
+
+<h6>Copyright (C) Gabe_Real 2025</h6>
