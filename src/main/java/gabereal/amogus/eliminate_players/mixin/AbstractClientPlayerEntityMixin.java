@@ -19,7 +19,7 @@ public class AbstractClientPlayerEntityMixin {
 	private void eliminateplayers$useGhostSkin(CallbackInfoReturnable<Identifier> cir) {
 		AbstractClientPlayerEntity self = (AbstractClientPlayerEntity) (Object) this;
 
-		if (!EliminatePlayers.bannedUuids.contains(self.getUuid())) {
+		if (EliminatePlayers.bannedUuids.contains(self.getUuid())) {
 			PlayerListEntry entry = MinecraftClient.getInstance().getNetworkHandler().getPlayerListEntry(self.getUuid());
 
 			if (entry != null && entry.getModel().equals("slim")) {

@@ -29,7 +29,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 				double dot = lookVec.dotProduct(toPlayer);
 
 				if (dot > 0.95) {
-					cir.setReturnValue(false); // Don't render name tag if looked at directly
+					cir.setReturnValue(false);
 				}
 			}
 		}

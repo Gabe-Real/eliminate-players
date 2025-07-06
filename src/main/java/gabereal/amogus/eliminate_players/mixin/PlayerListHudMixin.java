@@ -22,4 +22,3 @@ public class PlayerListHudMixin {
 	}
 }*/
 
-//TODO: Check if this works because it throws a warning in the console.

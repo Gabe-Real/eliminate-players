@@ -19,8 +19,7 @@ public class ServerPlayerNetworkHandlerMixin {
 		ServerPlayerEntity player = ((ServerPlayNetworkHandler)(Object)this).player;
 		UUID playerUuid = player.getUuid();
 
-		if (!EliminatePlayers.bannedUuids.contains(playerUuid)) {
-			// Cancel chat broadcast only for banned players
+		if (EliminatePlayers.bannedUuids.contains(playerUuid)) {
 			ci.cancel();
 		}
 	}
