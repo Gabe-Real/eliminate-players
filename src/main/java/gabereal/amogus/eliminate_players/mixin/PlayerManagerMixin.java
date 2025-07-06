@@ -1,4 +1,4 @@
-package gabereal.amogus.eliminate_players.mixin;
+/*package gabereal.amogus.eliminate_players.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import gabereal.amogus.eliminate_players.EliminatePlayers;
@@ -62,4 +62,4 @@ public abstract class PlayerManagerMixin {
 			.map(player -> player.getGameProfile().getName())
 			.toArray(String[]::new);
 	}
-}
+}*/
