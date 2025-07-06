@@ -12,9 +12,9 @@
 				"Arathain": "Original Concept"
 			},
 			"contact": {
-				"Source": "https://example.com/",
-				"issues": "https://github.com/QuiltMC/quilt-kotlin-template-mod/issues",
-				"sources": "https://github.com/QuiltMC/quilt-kotlin-template-mod"
+				"Source": "https://github.com/Gabe-Real/eliminate-players",
+				"Issues": "https://github.com/Gabe-Real/eliminate-players/issues",
+				"Homepage": "https://modrinth.com/eliminate-players"
 			},
 			"icon": "assets/eliminate_players/icon.png"
 		},
