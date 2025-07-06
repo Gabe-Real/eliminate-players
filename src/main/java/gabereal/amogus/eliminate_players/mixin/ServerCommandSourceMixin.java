@@ -1,4 +1,4 @@
-package gabereal.amogus.eliminate_players.mixin;
+/*package gabereal.amogus.eliminate_players.mixin;
 
 import com.google.common.collect.Lists;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -28,4 +28,4 @@ public class ServerCommandSourceMixin {
 		original.removeAll(list);
 		return original;
 	}
-}
+}*/
