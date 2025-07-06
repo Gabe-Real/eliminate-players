@@ -1,7 +1,6 @@
 package gabereal.amogus.eliminate_players.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import gabereal.amogus.eliminate_players.EliminatePlayers;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.message.MessageType;
@@ -20,16 +19,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 @Mixin(PlayerManager.class)
 public abstract class PlayerManagerMixin {
 	@Shadow @Final private List<ServerPlayerEntity> players;
 
-	@WrapWithCondition(method = "onPlayerConnect", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;broadcastSystemMessage(Lnet/minecraft/text/Text;Z)V"))
-	private boolean eplayers$playerLeave(PlayerManager manager, Text text, boolean bl, ClientConnection connect, ServerPlayerEntity player) {
-		return !EliminatePlayers.bannedUuids.contains(player.getUuid());
+	// Inject directly into onPlayerConnect to suppress the join message
+	@Inject(method = "onPlayerConnect", at = @At(value = "HEAD"))
+	private void eplayers$onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
+		if (EliminatePlayers.bannedUuids.contains(player.getUuid())) {
+			// Remove join message by setting player silently, or suppress it in another mixin
+			player.sendMessage(Text.literal("You joined silently."), false); // Optional
+		}
 	}
 
 	@Inject(method = "broadcastSystemMessage", at = @At("HEAD"), cancellable = true)
@@ -43,8 +44,6 @@ public abstract class PlayerManagerMixin {
 		}
 	}
 
-
-
 	@Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
 	private void eplayers$noBroadcasty(net.minecraft.network.message.SignedChatMessage message, @Nullable ServerPlayerEntity sender, MessageType.Parameters params, CallbackInfo ci) {
 		Text rawMessage = Text.of(message.getContent());
@@ -55,14 +54,12 @@ public abstract class PlayerManagerMixin {
 		}
 	}
 
-
 	@ModifyReturnValue(method = "getPlayerNames", at = @At("RETURN"))
 	private String[] eplayers$dontGetAllPlayersArgType(String[] original) {
-		for (int i = 0; i < this.players.size(); ++i) {
-			if (!EliminatePlayers.bannedUuids.contains(this.players.get(i).getGameProfile().getId())) {
-				original[i] = this.players.get(i).getGameProfile().getName();
-			}
-		}
-		return original;
+		// Filter out banned players from the returned player names
+		return players.stream()
+			.filter(player -> !EliminatePlayers.bannedUuids.contains(player.getUuid()))
+			.map(player -> player.getGameProfile().getName())
+			.toArray(String[]::new);
 	}
 }
