@@ -4,15 +4,16 @@
   "package": "gabereal.amogus.eliminate_players.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "AbstractClientPlayerEntityMixin",
     "LivingEntityMixin",
+    "PlayerAdvancementTrackerMixin",
     "PlayerEntityMixin",
     "ServerPlayerEntityMixin",
-    "AbstractClientPlayerEntityMixin",
     "ServerPlayerNetworkHandlerMixin"
   ],
   "client": [
-    "PlayerEntityRendererMixin",
-    "LivingEntityRendererMixin"
+    "LivingEntityRendererMixin",
+    "PlayerEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

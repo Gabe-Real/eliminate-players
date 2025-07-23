@@ -1,4 +1,4 @@
-/*package gabereal.amogus.eliminate_players.mixin;
+package gabereal.amogus.eliminate_players.mixin;
 
 import gabereal.amogus.eliminate_players.EliminatePlayers;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -17,4 +17,4 @@ public class PlayerAdvancementTrackerMixin {
 	private boolean eplayers$maybeActuallyDontAnnounce(boolean original) {
 		return original && !EliminatePlayers.bannedUuids.contains(this.owner.getUuid());
 	}
-}*/
+}

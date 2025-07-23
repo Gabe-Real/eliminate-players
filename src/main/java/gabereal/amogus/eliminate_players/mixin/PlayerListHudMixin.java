@@ -1,4 +1,4 @@
-/*package gabereal.amogus.eliminate_players.mixin;
+package gabereal.amogus.eliminate_players.mixin;
 
 import gabereal.amogus.eliminate_players.EliminatePlayers;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -14,11 +14,11 @@ import java.util.List;
 
 @Mixin(PlayerListHud.class)
 public class PlayerListHudMixin {
-	@Inject(method = "getPlayerEntries", at = @At("RETURN"), cancellable = true)
+	@Inject(method = "getPlayerName", at = @At("RETURN"), cancellable = true)
 	private void modifyPlayerList(CallbackInfoReturnable<List<PlayerListEntry>> cir) {
 		List<PlayerListEntry> entries = new ArrayList<>(cir.getReturnValue());
 		entries.removeIf(entry -> EliminatePlayers.bannedUuids.contains(entry.getProfile().getId()));
 		cir.setReturnValue(entries);
 	}
-}*/
+}
 
