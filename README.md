@@ -1,22 +1,66 @@
 <div align="center">
   <h1>Eliminate Players</h1>
 
-<a href="https://modrinth.com/mod/qsl"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/requires/quilt-standard-libraries_vector.svg"></a>
+  <a href="https://modrinth.com/mod/qsl"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/requires/quilt-standard-libraries_vector.svg"></a>
 <a href="https://discord.gabereal.co.uk"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/social/discord-plural_vector.svg"></a>
 <a href="https://ko-fi.com/Gabe_Real"><img src="https://raw.githubusercontent.com/intergrav/devins-badges/refs/heads/v3/assets/cozy/donate/kofi-plural-alt_vector.svg"></a>
 
-<h3>A ghostly Quilt mod that lets you "eliminate" players - hiding their chat, name, and presence, while replacing them with eerie visuals.</h3>
+  <h3>A ghostly Fabric/Quilt mod that lets you "eliminate" players - hiding their chat, name, and presence, while replacing them with eerie visuals.</h3>
 
-<h3>⚠️ Please note: This mod was originally desigend with the intention to only be used on one server, with one player. Certain features may not work as intended or be easily accessable to change.⚠️</h3>
+  <h3>⚠️ Please note: This mod was originally desigend with the intention to only be used on one server, with one player. Certain features may not work as intended or be easily accessable to change.⚠️</h3>
 </div>
 
-## Dependencies
+## Quilt Dependencies
 - Quilt Loader: >=0.29.0
-    - [https://quiltmc.org/en/install/client/](https://quiltmc.org/en/install/client/)
+  - [https://quiltmc.org/en/install/client/](https://quiltmc.org/en/install/client/) 
 - Quilt Fabric API: >=7.0.2
-    - [https://modrinth.com/mod/qsl](https://modrinth.com/mod/qsl)
+  - [https://modrinth.com/mod/qsl](https://modrinth.com/mod/qsl)
 - Quilt Kotlin Libraries: >=2.1.0
-    - [https://modrinth.com/mod/qkl](https://modrinth.com/mod/qkl)
+  - [https://modrinth.com/mod/qkl](https://modrinth.com/mod/qkl)
+
+## Fabric Dependencies
+- Fabric API: * 
+  - [https://modrinth.com/mod/fabric-api](https://modrinth.com/mod/fabric-api)
+- Fabric loader: >=0.16.14
+
+## Config
+
+Configuration in this mod is synced - this means that if the server has different config to the client you will not be able to join.
+
+To configure this mod please see below:
+
+**Client**
+- Open your file explorer, locate your Appdata folder using %appdata% and open .minecraft.
+- Locate your config folder and see eliminateplayers.json.
+
+**Server**
+- Go to your server files and locate the config folder.
+- Open the eliminateplayers.json file.
+
+If you're using the **Modrinth** loader click [here](https://github.com/Gabe-Real/eliminate-players/blob/master/Modrinth.mdx)
+
+If you're using the **Prism** loader click [here](https://github.com/Gabe-Real/eliminate-players/blob/master/Prism.mdx)
+
+If you wish to change the banned uuid there are many websites to help you do that, but I personally prefer https://mcuuid.net
+
+To add more uuids see the examples below:
+
+```JSON
+{
+  "bannedUuids": [
+    "d0815131-c51a-4831-b973-f69da01e6326"
+  ]
+}
+```
+
+```JSON
+{
+  "bannedUuids": [
+    "d0815131-c51a-4831-b973-f69da01e6326", ← add comma
+    "add-your-uuid-here" ← add your uuid here
+  ]
+}
+```
 
 ## FAQ
 
