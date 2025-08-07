@@ -18,6 +18,9 @@
 		"main": [
           "dev.gabereal.eplayers.EliminatePlayers"
 		],
+		"client": [
+			"dev.gabereal.eplayers.EliminatePlayersClient"
+		],
 		"pre_launch": [
 			"dev.gabereal.eplayers.EliminatePlayersPreLaunch"
 		]
