@@ -1,0 +1,24 @@
+{
+	"required": true,
+	"package": "dev.gabereal.eplayers.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"EntityArgumentTypeMixin",
+		"LivingEntityMixin",
+		"PlayerAdvancementTrackerMixin",
+		"PlayerEntityMixin",
+		"PlayerManagerMixin",
+		"ServerCommandSourceMixin",
+		"ServerPlayerNetworkHandlerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"client": [
+		"AbstractClientPlayerEntityMixin",
+		"ClientCommandSourceMixin",
+		"LivingEntityRendererMixin",
+		"PlayerEntityRendererMixin",
+		"PlayerListHudMixin"
+	]
+}
