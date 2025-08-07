@@ -48,37 +48,53 @@ public class EliminatePlayers implements ModInitializer {
 	}
 
 	private void setupServerHandlers() {
+		// When a player joins, request their config (with delay to ensure they're ready)
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			ServerPlayerEntity player = handler.getPlayer();
-			LOGGER.info("Requesting config check from player: {}", player.getName().getString());
+			LOGGER.info("Player joined, will check config in 1 second: {}", player.getName().getString());
 
-			PacketByteBuf buf = PacketByteBufs.create();
-			buf.writeInt(bannedUuids.size());
-			for (UUID uuid : bannedUuids) {
-				buf.writeString(uuid.toString());
-			}
-
-			ServerPlayNetworking.send(player, CONFIG_CHECK_PACKET, buf);
-
+			// Wait 1 second before sending packet to ensure player is fully connected
 			server.execute(() -> {
 				try {
-					Thread.sleep(10000);
+					Thread.sleep(1000); // 1 second delay
+
+					if (!player.networkHandler.isConnectionOpen()) {
+						return; // Player disconnected
+					}
+
+					LOGGER.info("Sending config check to player: {}", player.getName().getString());
+
+					// Send server's banned UUIDs to client for comparison
+					PacketByteBuf buf = PacketByteBufs.create();
+					buf.writeInt(bannedUuids.size());
+					for (UUID uuid : bannedUuids) {
+						buf.writeString(uuid.toString());
+					}
+
+					ServerPlayNetworking.send(player, CONFIG_CHECK_PACKET, buf);
+
+					// Give client 15 seconds to respond (total)
+					Thread.sleep(15000);
 					if (player.networkHandler.isConnectionOpen()) {
-						kickPlayerWithInstructions(player, "No response to config check");
+						// If still connected after timeout, assume they don't have the mod
+						kickPlayerWithInstructions(player, "No response to config check - mod may not be installed");
 					}
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
+				} catch (Exception e) {
+					LOGGER.error("Error during config check for player {}: {}", player.getName().getString(), e.getMessage());
 				}
 			});
 		});
 
+		// Handle client responses
 		ServerPlayNetworking.registerGlobalReceiver(CONFIG_RESPONSE_PACKET, (server, player, handler, buf, responseSender) -> {
 			boolean configMatches = buf.readBoolean();
 
 			if (!configMatches) {
-				server.execute(() -> kickPlayerWithInstructions(player, "Config mismatch"));
+				server.execute(() -> kickPlayerWithInstructions(player, "Config mismatch - banned UUIDs don't match server"));
 			} else {
-				LOGGER.info("Player {} has correct config", player.getName().getString());
+				LOGGER.info("Player {} has correct config - allowing connection", player.getName().getString());
 			}
 		});
 	}
@@ -139,6 +155,7 @@ public class EliminatePlayers implements ModInitializer {
 				GSON.toJson(defaultConfig, writer);
 			}
 
+			// Load the default config
 			bannedUuids.add(UUID.fromString("d0815131-c51a-4831-b973-f69da01e6326"));
 
 			LOGGER.info("Created default config at {}", CONFIG_PATH);
