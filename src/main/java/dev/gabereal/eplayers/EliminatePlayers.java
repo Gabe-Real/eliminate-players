@@ -74,7 +74,7 @@ public class EliminatePlayers implements ModInitializer {
 
 					Thread.sleep(15000);
 					if (player.networkHandler.isConnectionOpen() && !verifiedPlayers.contains(player.getUuid())) {
-						kickPlayerWithInstructions(player, "No response to config check - mod may not be installed");
+						kickPlayerWithInstructions(player, "Config mismatch between servers or mod may not be installed!");
 					}
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
@@ -111,10 +111,14 @@ public class EliminatePlayers implements ModInitializer {
 		}
 
 		instructions.append("\n§eSteps to fix:\n");
+		instructions.append("§7If you're using the minecraft launcher, follow below ↓\n");
 		instructions.append("§71. Go to your .minecraft/config/ folder\n");
 		instructions.append("§72. Open eliminateplayers.json\n");
 		instructions.append("§73. Update the bannedUuids list to match above\n");
 		instructions.append("§74. Restart your client and rejoin\n\n");
+		instructions.append("§7If you're using Modrinth, go to https://github.com/Gabe-Real/eliminate-players/Modrinth.mdx\n");
+		instructions.append("§7If you're using Prism, go to https://github.com/Gabe-Real/eliminate-players/Prism.mdx\n");
+		instructions.append("§7If you want to find a uuid, go to https://mcuuid.net/\n\n");
 		instructions.append("§cReason: ").append(reason);
 
 		player.networkHandler.disconnect(Text.literal(instructions.toString()));

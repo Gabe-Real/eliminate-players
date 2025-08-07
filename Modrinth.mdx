@@ -1,0 +1,36 @@
+# Modrinth
+
+If you're seeing this, this means that you have mismatched config and is using the Modrinth launcher.and
+
+## How to fix
+
+1. Open your file explorer
+2. In the top bar type `%appdata%` and hit enter
+3. Scroll until you find the ModrinthApp folder and open it.
+4. Go to the profiles folder and find your profile.
+5. Once you're in your profile go to config → `eliminateplayers.json` and change the banned uuid to the matching one.
+
+## Adding more
+
+If you wish to add more uuids to the json, simply add a comma after the first uuid then continue as usual.
+
+For example:
+
+```JSON
+{
+  "bannedUuids": [
+    "d0815131-c51a-4831-b973-f69da01e6326"
+  ]
+}
+```
+
+```JSON
+{
+  "bannedUuids": [
+    "d0815131-c51a-4831-b973-f69da01e6326", ← add comma
+    "add-your-uuid-here" ← add your uuid here
+  ]
+}
+```
+
+Please make sure to remove the comments before launching your game or else you will crash!
