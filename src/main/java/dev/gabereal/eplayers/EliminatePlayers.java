@@ -33,6 +33,7 @@ public class EliminatePlayers implements ModInitializer {
 	public static final Identifier CONFIG_RESPONSE_PACKET = new Identifier(MOD_ID, "config_response");
 
 	public static final ArrayList<UUID> bannedUuids = new ArrayList<>();
+	private static final Set<UUID> verifiedPlayers = new HashSet<>(); // Track verified players
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 	private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("eliminateplayers.json");
 
@@ -48,23 +49,20 @@ public class EliminatePlayers implements ModInitializer {
 	}
 
 	private void setupServerHandlers() {
-		// When a player joins, request their config (with delay to ensure they're ready)
 		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
 			ServerPlayerEntity player = handler.getPlayer();
 			LOGGER.info("Player joined, will check config in 1 second: {}", player.getName().getString());
 
-			// Wait 1 second before sending packet to ensure player is fully connected
 			server.execute(() -> {
 				try {
-					Thread.sleep(1000); // 1 second delay
+					Thread.sleep(1000);
 
 					if (!player.networkHandler.isConnectionOpen()) {
-						return; // Player disconnected
+						return;
 					}
 
 					LOGGER.info("Sending config check to player: {}", player.getName().getString());
 
-					// Send server's banned UUIDs to client for comparison
 					PacketByteBuf buf = PacketByteBufs.create();
 					buf.writeInt(bannedUuids.size());
 					for (UUID uuid : bannedUuids) {
@@ -73,10 +71,9 @@ public class EliminatePlayers implements ModInitializer {
 
 					ServerPlayNetworking.send(player, CONFIG_CHECK_PACKET, buf);
 
-					// Give client 15 seconds to respond (total)
+
 					Thread.sleep(15000);
-					if (player.networkHandler.isConnectionOpen()) {
-						// If still connected after timeout, assume they don't have the mod
+					if (player.networkHandler.isConnectionOpen() && !verifiedPlayers.contains(player.getUuid())) {
 						kickPlayerWithInstructions(player, "No response to config check - mod may not be installed");
 					}
 				} catch (InterruptedException e) {
@@ -87,15 +84,19 @@ public class EliminatePlayers implements ModInitializer {
 			});
 		});
 
-		// Handle client responses
 		ServerPlayNetworking.registerGlobalReceiver(CONFIG_RESPONSE_PACKET, (server, player, handler, buf, responseSender) -> {
 			boolean configMatches = buf.readBoolean();
 
 			if (!configMatches) {
 				server.execute(() -> kickPlayerWithInstructions(player, "Config mismatch - banned UUIDs don't match server"));
 			} else {
+				verifiedPlayers.add(player.getUuid());
 				LOGGER.info("Player {} has correct config - allowing connection", player.getName().getString());
 			}
+		});
+
+		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+			verifiedPlayers.remove(handler.getPlayer().getUuid());
 		});
 	}
 
@@ -155,7 +156,6 @@ public class EliminatePlayers implements ModInitializer {
 				GSON.toJson(defaultConfig, writer);
 			}
 
-			// Load the default config
 			bannedUuids.add(UUID.fromString("d0815131-c51a-4831-b973-f69da01e6326"));
 
 			LOGGER.info("Created default config at {}", CONFIG_PATH);

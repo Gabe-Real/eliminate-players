@@ -14,6 +14,8 @@ public class EliminatePlayersClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientPlayNetworking.registerGlobalReceiver(EliminatePlayers.CONFIG_CHECK_PACKET, (client, handler, buf, responseSender) -> {
+            EliminatePlayers.LOGGER.info("Received config check from server");
+
             int count = buf.readInt();
             List<String> serverUuids = new ArrayList<>();
 
@@ -21,7 +23,15 @@ public class EliminatePlayersClient implements ClientModInitializer {
                 serverUuids.add(buf.readString());
             }
 
+            EliminatePlayers.LOGGER.info("Server sent {} UUIDs", count);
+
+            if (EliminatePlayers.bannedUuids.isEmpty()) {
+                EliminatePlayers.LOGGER.warn("Client config appears to be empty, this will cause a mismatch");
+            }
+
             boolean matches = compareConfigs(serverUuids);
+
+            EliminatePlayers.LOGGER.info("Config comparison result: {}", matches ? "MATCH" : "MISMATCH");
 
             PacketByteBuf response = PacketByteBufs.create();
             response.writeBoolean(matches);
@@ -33,19 +43,31 @@ public class EliminatePlayersClient implements ClientModInitializer {
     private boolean compareConfigs(List<String> serverUuids) {
         List<String> clientUuids = new ArrayList<>();
         for (UUID uuid : EliminatePlayers.bannedUuids) {
-            clientUuids.add(uuid.toString());
+            clientUuids.add(uuid.toString().toLowerCase());
         }
 
-        if (serverUuids.size() != clientUuids.size()) {
+        List<String> normalizedServerUuids = new ArrayList<>();
+        for (String uuid : serverUuids) {
+            normalizedServerUuids.add(uuid.toLowerCase());
+        }
+
+        EliminatePlayers.LOGGER.info("Client UUIDs: {}", clientUuids);
+        EliminatePlayers.LOGGER.info("Server UUIDs: {}", normalizedServerUuids);
+
+        if (normalizedServerUuids.size() != clientUuids.size()) {
+            EliminatePlayers.LOGGER.warn("Size mismatch - Server: {}, Client: {}",
+                    normalizedServerUuids.size(), clientUuids.size());
             return false;
         }
 
-        for (String serverUuid : serverUuids) {
+        for (String serverUuid : normalizedServerUuids) {
             if (!clientUuids.contains(serverUuid)) {
+                EliminatePlayers.LOGGER.warn("Server UUID not found in client config: {}", serverUuid);
                 return false;
             }
         }
 
+        EliminatePlayers.LOGGER.info("Config comparison successful - UUIDs match!");
         return true;
     }
 }
