@@ -7,5 +7,6 @@ public class EliminatePlayersPreLaunch implements PreLaunchEntrypoint {
     @Override
     public void onPreLaunch() {
         MixinExtrasBootstrap.init();
+        // e
     }
 }
